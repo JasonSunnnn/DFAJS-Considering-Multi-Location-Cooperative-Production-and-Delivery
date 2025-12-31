@@ -24,7 +24,7 @@ for i=1:15
     i
     min1=min(results{i});
     max1=max(results{i});
-    for ii=1:repeat %ÖØ¸´´ÎÊı
+    for ii=1:repeat %é‡å¤æ¬¡æ•°
         d=max1-min1;
         d(d==0)=5;
         
@@ -103,7 +103,7 @@ HVmean=zeros(15,1);
 for i=1:15
     min1=min(results{i});
     max1=max(results{i});
-    for ii=1:10 %ÖØ¸´´ÎÊı
+    for ii=1:10 %é‡å¤æ¬¡æ•°
         %     temp=results_2encode{i};
         %     temp=(temp-min(results))./(max(results)-min(results));
         %     HV1(i)=P_evaluate('HV',temp,[1.1,1.1,1.1]);
@@ -142,7 +142,7 @@ Runtime{4}=runtime_HSEATS;
 % Runtime(:,4)=mean(runtime_3NSGAII')';
 
 
-%% ÖÈºÍ¼ìÑé
+%% ç§©å’Œæ£€éªŒ
 RankSumTest=zeros(15,3);
 for i=1:15
     %reference_col=HVcell{4}(i,:);
@@ -151,60 +151,61 @@ for i=1:15
     for ii=1:1
         data=runtime_3HSEA(i,:);
         %data=objv33{i,ii};
-        % ¶ÔÃ¿Ò»ÁĞÓë×îºóÒ»ÁĞ½øĞĞWilcoxonÖÈºÍ¼ìÑé
+        % å¯¹æ¯ä¸€åˆ—ä¸æœ€åä¸€åˆ—è¿›è¡ŒWilcoxonç§©å’Œæ£€éªŒ
         [p, h] = ranksum(data, reference_col);
         
-        % ÅĞ¶ÏÏÔÖøĞÔ
+        % åˆ¤æ–­æ˜¾è‘—æ€§
         if h == 1
-            % ±È½ÏÖĞÎ»Êı
+            % æ¯”è¾ƒä¸­ä½æ•°
             if median(data) > median(reference_col)
-                RankSumTest(i,ii) = 1; % ÏÔÖø´óÓÚ
+                RankSumTest(i,ii) = 1; % æ˜¾è‘—å¤§äº
             else
-                RankSumTest(i,ii) = 2; % ÏÔÖøĞ¡ÓÚ
+                RankSumTest(i,ii) = 2; % æ˜¾è‘—å°äº
             end
         else
-            RankSumTest(i,ii) = 0; % Ã»ÓĞÏÔÖø²îÒì
+            RankSumTest(i,ii) = 0; % æ²¡æœ‰æ˜¾è‘—å·®å¼‚
         end
     end
 end
 %% ANOVA 
-% % 0. Êı¾İ×¼±¸£¨Ê¾Àı£º3 ×é£¬30 ´Î¶ÀÁ¢ÔËĞĞ£©
-% X = [HV_NSFATS', HV_HEDA', HV_DQNMA'];   % Ã¿ÁĞÒ»×é£¬ĞĞ = ¶ÀÁ¢ÔËĞĞ
+% % 0. æ•°æ®å‡†å¤‡ï¼ˆç¤ºä¾‹ï¼š3 ç»„ï¼Œ30 æ¬¡ç‹¬ç«‹è¿è¡Œï¼‰
+% X = [HV_NSFATS', HV_HEDA', HV_DQNMA'];   % æ¯åˆ—ä¸€ç»„ï¼Œè¡Œ = ç‹¬ç«‹è¿è¡Œ
 % 
-% % 1. ÕıÌ¬ĞÔ¼ìÑé£¨Jarque-Bera£¬×Ô´ø£©
+% % 1. æ­£æ€æ€§æ£€éªŒï¼ˆJarque-Beraï¼Œè‡ªå¸¦ï¼‰
 % normOK = true;  pNorm = zeros(1,g);
 % for gg = 1:g
-%     [~, pNorm(gg)] = jbtest(X(:,gg), alpha);   % ×Ô´øº¯Êı
+%     [~, pNorm(gg)] = jbtest(X(:,gg), alpha);   % è‡ªå¸¦å‡½æ•°
 %     if pNorm(gg) < alpha, normOK = false; end
 % end
 % fprintf('Jarque-Bera p-values: %s\n', mat2str(pNorm'));
-% if ~normOK, warning('Normality violated ¡ú use non-parametric test'); end
+% if ~normOK, warning('Normality violated â†’ use non-parametric test'); end
 % 
-% % 2. ·½²îÆëĞÔ¼ìÑé£¨Levene£©
-% % ¼ÙÉèXºÍYÊÇÁ½¸öÑù±¾Êı¾İ
+% % 2. æ–¹å·®é½æ€§æ£€éªŒï¼ˆLeveneï¼‰
+% % å‡è®¾Xå’ŒYæ˜¯ä¸¤ä¸ªæ ·æœ¬æ•°æ®
 % [h, p] = vartestn(X, 'Centered', 'off');
 % 
 % if h == 0
-%     disp('·½²îÆëĞÔ£¬pÖµ = ', p);
+%     disp('Homogeneity of Varianceï¼Œp value = ', p);
 % else
-%     disp('·½²î²»ÆëĞÔ£¬pÖµ = ', p);
+%     disp('Heterogeneity of Varianceï¼Œp value = ', p);
 % end
 % 
 % 
-% % 3. ·Ç²Î¼ìÑé£¨²»Âú×ã ANOVA ¼ÙÉèÊ±£©
+% % 3. éå‚æ£€éªŒï¼ˆä¸æ»¡è¶³ ANOVA å‡è®¾æ—¶ï¼‰
 % if g == 2
-%     % Á½×é£ºWilcoxon rank-sum£¨Ë«²à£©
+%     % ä¸¤ç»„ï¼šWilcoxon rank-sumï¼ˆåŒä¾§ï¼‰
 %     [pNon, hNon, statsNon] = ranksum(X(:,1), X(:,2), 'Alpha', alpha, 'Tail', 'both');
 %     fprintf('Wilcoxon rank-sum p = %.4f, h = %d\n', pNon, hNon);
 % else
-%     % ¶à×é£ºKruskal-Wallis
+%     % å¤šç»„ï¼šKruskal-Wallis
 %     [pNon, tblNon, statsNon] = kruskalwallis(X, [], 'off');
 %     fprintf('Kruskal-Wallis p = %.4f\n', pNon);
 % end
 % 
-% % 4. ½áÂÛ
+% % 4. ç»“è®º
 % if pNon < alpha
-%     fprintf('¡ú Significant difference at ¦Á = %.2f\n', alpha);
+%     fprintf('â†’ Significant difference at Î± = %.2f\n', alpha);
 % else
-%     fprintf('¡ú No significant difference at ¦Á = %.2f\n', alpha);
+%     fprintf('â†’ No significant difference at Î± = %.2f\n', alpha);
+
 % end
