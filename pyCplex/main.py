@@ -360,7 +360,6 @@ if __name__ == '__main__':
         
 
         for i in range(runtimes):
-            i +=1
             if flag==1:
                 break
 
@@ -472,4 +471,5 @@ if __name__ == '__main__':
         np.savetxt('gap_case'+str(Scenario_index+1)+'.csv',a3, delimiter=',')
         np.savetxt('objValue_case'+str(Scenario_index+1)+'.csv',a4, delimiter=',')
         np.savetxt('time_case'+str(Scenario_index+1)+'.csv',a5, delimiter=',')
+
 
